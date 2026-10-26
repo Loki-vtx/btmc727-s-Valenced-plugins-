@@ -12,7 +12,7 @@
       },
       "versions": {
         "1.0.0": {
-          "url": "https://otkusteyler.github.io/btmc727-s-Valenced-plugins-/pool/com.example.emojis@1.0.0.zip",
+          "url": "https://loki-vtx.github.io/btmc727-s-Valenced-plugins-/pool/com.example.emojis@1.0.0.zip",
           "sha256": "b3195176d6bafd4d691d0e3777ff437de53988123e9c6ba9686f91cc552531a3",
           "size": 7328,
           "dependencies": {
@@ -38,7 +38,7 @@
       },
       "versions": {
         "1.0.0": {
-          "url": "https://otkusteyler.github.io/btmc727-s-Valenced-plugins-/pool/com.example.fonts@1.0.0.zip",
+          "url": "https://loki-vtx.github.io/btmc727-s-Valenced-plugins-/pool/com.example.fonts@1.0.0.zip",
           "sha256": "2fdfe20a9eaa30606f8fd1a21dd3b30401b6650d2be5d34683baaab255613a6d",
           "size": 2424124,
           "dependencies": {
@@ -64,7 +64,7 @@
       },
       "versions": {
         "1.1.0": {
-          "url": "https://otkusteyler.github.io/btmc727-s-Valenced-plugins-/pool/com.example.icons@1.1.0.zip",
+          "url": "https://loki-vtx.github.io/btmc727-s-Valenced-plugins-/pool/com.example.icons@1.1.0.zip",
           "sha256": "4b443c9ad15c5a41746e612c15cc70abc9387de329633efdd3a1cdc8672d5781",
           "size": 6806,
           "dependencies": {
@@ -90,7 +90,7 @@
       },
       "versions": {
         "1.0.0": {
-          "url": "https://otkusteyler.github.io/btmc727-s-Valenced-plugins-/pool/com.example.themes@1.0.0.zip",
+          "url": "https://loki-vtx.github.io/btmc727-s-Valenced-plugins-/pool/com.example.themes@1.0.0.zip",
           "sha256": "148b3e9bdd09554a3b2ee9e64b1b57b74cebe9fcf73657b4cc75028ac9e7b5dd",
           "size": 91229,
           "dependencies": {
@@ -115,13 +115,26 @@
         "VMUser8.1"
       ],
       "channels": {
-        "latest": "1.5.7"
+        "latest": "1.5.8"
       },
       "versions": {
         "1.5.7": {
-          "url": "https://otkusteyler.github.io/btmc727-s-Valenced-plugins-/pool/com.otkusteyler.readallplus@1.5.7.zip",
+          "url": "https://loki-vtx.github.io/btmc727-s-Valenced-plugins-/pool/com.otkusteyler.readallplus@1.5.7.zip",
           "sha256": "6c57cd0b2a4bf13eab0c15bce3b534ebfdcc4bfebff6fb6756af482c0d38997e",
           "size": 383,
+          "dependencies": {
+            "valenced.api": {
+              "version": ">=1 <2"
+            },
+            "discord": {
+              "version": "*"
+            }
+          }
+        },
+        "1.5.8": {
+          "url": "https://loki-vtx.github.io/btmc727-s-Valenced-plugins-/pool/com.otkusteyler.readallplus@1.5.8.zip",
+          "sha256": "954d9a4b5806b66ee12bae03d74a392b79fcdc7744de299d6efd202fe3ed0c8f",
+          "size": 5518,
           "dependencies": {
             "valenced.api": {
               "version": ">=1 <2"
