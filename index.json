@@ -1,7 +1,7 @@
 {
   "format": 1,
-  "name": "My Plugin Repository",
-  "description": "Example plugin repository from the Valenced plugin template.",
+  "name": "btmc727-s-Valenced-plugins-",
+  "description": "A rework from next base.",
   "plugins": {
     "com.example.emojis": {
       "name": "Example Emojis",
