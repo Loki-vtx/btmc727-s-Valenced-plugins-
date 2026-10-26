@@ -108,14 +108,14 @@
       }
     },
     "com.otkusteyler.readallplus": {
-      "name": "Read All+",
-      "description": "Mark a chat read from a button above the message box, or a whole server from its menu.",
+      "name": "Read All",
+      "description": "Mark a chat read from a button above the message box, or a whole server from its menu",
       "author": "OTKUSteyler",
       "contributors": [
         "VMUser8.1"
       ],
       "channels": {
-        "latest": "1.5.8"
+        "latest": "1.5.9"
       },
       "versions": {
         "1.5.7": {
@@ -135,6 +135,19 @@
           "url": "https://loki-vtx.github.io/btmc727-s-Valenced-plugins-/pool/com.otkusteyler.readallplus@1.5.8.zip",
           "sha256": "954d9a4b5806b66ee12bae03d74a392b79fcdc7744de299d6efd202fe3ed0c8f",
           "size": 5518,
+          "dependencies": {
+            "valenced.api": {
+              "version": ">=1 <2"
+            },
+            "discord": {
+              "version": "*"
+            }
+          }
+        },
+        "1.5.9": {
+          "url": "https://loki-vtx.github.io/btmc727-s-Valenced-plugins-/pool/com.otkusteyler.readallplus@1.5.9.zip",
+          "sha256": "d5f02577878f80676867927bcb83f3361aa22a46cc6bc31d8232e548ce0b5b81",
+          "size": 5516,
           "dependencies": {
             "valenced.api": {
               "version": ">=1 <2"
