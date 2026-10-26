@@ -106,6 +106,32 @@
           }
         }
       }
+    },
+    "com.otkusteyler.readallplus": {
+      "name": "Read All+",
+      "description": "Mark a chat read from a button above the message box, or a whole server from its menu.",
+      "author": "OTKUSteyler",
+      "contributors": [
+        "VMUser8.1"
+      ],
+      "channels": {
+        "latest": "1.5.7"
+      },
+      "versions": {
+        "1.5.7": {
+          "url": "https://otkusteyler.github.io/btmc727-s-Valenced-plugins-/pool/com.otkusteyler.readallplus@1.5.7.zip",
+          "sha256": "6c57cd0b2a4bf13eab0c15bce3b534ebfdcc4bfebff6fb6756af482c0d38997e",
+          "size": 383,
+          "dependencies": {
+            "valenced.api": {
+              "version": ">=1 <2"
+            },
+            "discord": {
+              "version": "*"
+            }
+          }
+        }
+      }
     }
   }
 }
