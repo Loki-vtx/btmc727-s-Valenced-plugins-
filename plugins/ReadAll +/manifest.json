@@ -1,7 +1,7 @@
 {
 	"format": 1,
 	"id": "com.otkusteyler.readallplus",
-	"name": "Read All+",
+	"name": "Read All",
 	"description": "Mark a chat read from a button above the message box, or a whole server from its menu.",
 	"author": "OTKUSteyler",
 	"contributors": ["VMUser8.1"],
