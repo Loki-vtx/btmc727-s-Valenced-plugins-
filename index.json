@@ -1,7 +1,7 @@
 {
   "format": 1,
   "name": "btmc727-s-Valenced-plugins-",
-  "description": "A rework from next base.",
+  "description": "Just ports from Next For Valenced.",
   "plugins": {
     "com.example.emojis": {
       "name": "Example Emojis",
@@ -75,29 +75,6 @@
               "version": "*"
             },
             "valenced.api.themes": {
-              "version": "*"
-            }
-          }
-        }
-      }
-    },
-    "com.example.js-plugin": {
-      "name": "JS Plugin",
-      "description": "A JS-only example plugin without any native code.",
-      "author": "Your Name <643945264868098049> (https://discord.com \"Website\")",
-      "channels": {
-        "latest": "1.0.0"
-      },
-      "versions": {
-        "1.0.0": {
-          "url": "https://otkusteyler.github.io/btmc727-s-Valenced-plugins-/pool/com.example.js-plugin@1.0.0.zip",
-          "sha256": "ea0d58776dee395d1a30f5bbf98d778daa95a8cb224ab470fe6195d0a4fba1d5",
-          "size": 607,
-          "dependencies": {
-            "valenced.api": {
-              "version": ">=1 <2"
-            },
-            "discord": {
               "version": "*"
             }
           }
