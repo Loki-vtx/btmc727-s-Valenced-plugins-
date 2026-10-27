@@ -115,7 +115,7 @@
         "VMUser8.1"
       ],
       "channels": {
-        "latest": "1.5.11"
+        "latest": "1.5.12"
       },
       "versions": {
         "1.5.10": {
@@ -135,6 +135,19 @@
           "url": "https://loki-vtx.github.io/btmc727-s-Valenced-plugins-/pool/com.otkusteyler.readallplus@1.5.11.zip",
           "sha256": "e8df41c322163500c711b56959361c33d79180944e1842f90d181ddbc11c43cf",
           "size": 5516,
+          "dependencies": {
+            "valenced.api": {
+              "version": ">=1 <2"
+            },
+            "discord": {
+              "version": "*"
+            }
+          }
+        },
+        "1.5.12": {
+          "url": "https://loki-vtx.github.io/btmc727-s-Valenced-plugins-/pool/com.otkusteyler.readallplus@1.5.12.zip",
+          "sha256": "3b67f533730ef39872746f5dc63d8dc19fc4b2b664062208694093fea2734e07",
+          "size": 5648,
           "dependencies": {
             "valenced.api": {
               "version": ">=1 <2"
