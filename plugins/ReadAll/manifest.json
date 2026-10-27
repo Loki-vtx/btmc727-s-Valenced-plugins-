@@ -5,7 +5,7 @@
 	"description": "Mark a chat read from a button above the message box, or a whole server from its menu",
 	"author": "OTKUSteyler",
 	"contributors": ["VMUser8.1"],
-	"version": "1.5.10",
+	"version": "0.0.7",
 	"dependencies": {
 		"valenced.api": {
 			"version": ">=1 <2"
