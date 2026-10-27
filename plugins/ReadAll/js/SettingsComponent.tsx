@@ -21,7 +21,7 @@ const channelName = (id: string) => {
 
 export const SettingsComponent: PluginSettingsComponent<ApiOptions> = ({ api }: { api: ReadAllApi }) => {
 	const { TableRowGroup, TableRow, TableSwitchRow, Stack, TextInput } = design('TableRowGroup', 'TableRow', 'TableSwitchRow', 'Stack', 'TextInput')
-	const { Slider, Text } = design('TableRowGroup', 'Slider')
+	const { Slider } = design('TableRowGroup', 'Slider')
 
 	api.jsonStorage.use() // re-render on change
 	const s = getSettings()
@@ -90,7 +90,7 @@ export const SettingsComponent: PluginSettingsComponent<ApiOptions> = ({ api }: 
 				</TableRowGroup>
 
 				<TableRowGroup title="In chats">
-					{toggle('"Mark read" button', 'Floats above the message box while the open chat has unread messages. Tapping it marks all servers and DMs read, except the ones excluded below', 'chatPill')}
+					{toggle('"Mark read" button', 'Floats above the message box while the open chat has unread messages. Tapping it marks this chat read', 'chatPill')}
 					{toggle(
 						'Keep chats unread until I tap ✓',
 						'Discord stops marking chats read when you open them or scroll to the newest messages. The button, the server menu, /readall and Discord\'s own Mark as read still work',
@@ -106,9 +106,9 @@ export const SettingsComponent: PluginSettingsComponent<ApiOptions> = ({ api }: 
 						label="Text size"
 						subLabel={
 							<View style={{ gap: 8, marginTop: 8 }}>
-								<Text color="text-muted" variant="text-sm/normal">
+								<RNText style={{ color: '#949BA4', fontSize: 14 }}>
 									{s.fontSize} pt{s.fontSize === FONT.default ? ' (default)' : ''}
-								</Text>
+								</RNText>
 								<Slider
 									step={1}
 									value={s.fontSize}

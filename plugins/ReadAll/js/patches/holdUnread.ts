@@ -3,9 +3,8 @@ import { store } from '../env'
 import { getSettings } from '../settings'
 import type { ReadAllApi } from '../settings'
 
-// ReadStateStore hands out per-channel ReadState objects; `ack` lives on their
-// prototype. While "hold unread" is on, Discord's automatic acks are swallowed.
-// Our own acks go through BULK_ACK, so they're unaffected.
+const MAX_TRIES = 60 // so the svj wouldnt stay in an infinte loop
+
 export default function holdUnread({ cleanup }: ReadAllApi) {
 	let installed = false
 	let timer: ReturnType<typeof setInterval> | undefined
@@ -49,14 +48,21 @@ export default function holdUnread({ cleanup }: ReadAllApi) {
 		return (installed = true)
 	}
 
-	// ReadState objects may not exist yet at startup, so retry until one does.
+	// ReadState objects may not exist yet at startup, so retry for a while.
 	if (!tryInstall()) {
+		let tries = 0
+		const stop = () => {
+			if (timer) clearInterval(timer)
+			timer = undefined
+		}
 		timer = setInterval(() => {
-			if (tryInstall() && timer) {
-				clearInterval(timer)
-				timer = undefined
+			tries++
+			if (tryInstall()) return stop()
+			if (tries >= MAX_TRIES) {
+				stop()
+				console.warn('[ReadAll+] hold-unread: no ReadState found, giving up')
 			}
 		}, 1000)
-		cleanup(() => timer && clearInterval(timer))
+		cleanup(stop)
 	}
 }

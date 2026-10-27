@@ -4,7 +4,7 @@ import { withName } from '@valenced/modules/finders/filters'
 import React from 'react'
 import { Animated, Pressable, StyleSheet, Text, View } from 'react-native'
 import { store, toast } from '../env'
-import { channelHasUnread, markAllRead } from '../readState'
+import { channelHasUnread, markChannelRead } from '../readState'
 import { getSettings } from '../settings'
 import type { ReadAllApi } from '../settings'
 
@@ -74,7 +74,8 @@ function Label({ compact, done, pressed, fontSize }: { compact: boolean; done: b
 	)
 }
 
-function ReadPill({ typing }: { typing: boolean }) {
+function ReadPill({ api, typing }: { api: ReadAllApi; typing: boolean }) {
+	api.jsonStorage.use() // re-render when settings change
 	const { selected, unread } = useUnreadChannel()
 	const settings = getSettings()
 	const [shown, setShown] = React.useState<string | undefined>(unread)
@@ -134,12 +135,15 @@ function ReadPill({ typing }: { typing: boolean }) {
 				accessibilityLabel={done ? 'This chat is marked as read' : 'Mark this chat as read'}
 				disabled={done}
 				onPress={() => {
-					// Marks every server and DM read, except the ones on the exclusion lists.
+					// Marks only the open chat. The store listener above fades the pill out once Discord confirms it.
 					try {
-						markAllRead()
-						fadeOut()
-					} catch {
-						toast("Couldn't mark chats as read", 'ReadAllChat')
+						if (!selected || !markChannelRead(selected)) throw new Error('Channel not in ReadState stores')
+						setTimeout(() => {
+							if (channelHasUnread(selected)) toast("Discord didn't clear this chat", 'ReadAllChat')
+						}, 500)
+					} catch (e) {
+						api.plugin.reportError(e)
+						toast("Couldn't mark this chat as read", 'ReadAllChat')
 					}
 				}}
 			>
@@ -151,21 +155,8 @@ function ReadPill({ typing }: { typing: boolean }) {
 
 // --- locating the spots inside ChatInput's render tree ----------------------
 
-const findNode = (node: any, test: (n: any) => boolean, depth = 0): any => {
-	if (!node || typeof node !== 'object' || depth > 25) return
-	if (!Array.isArray(node) && test(node)) return node
-	const kids = Array.isArray(node) ? node : node.props?.children
-	if (Array.isArray(kids)) {
-		for (const k of kids) {
-			const hit = findNode(k, test, depth + 1)
-			if (hit) return hit
-		}
-	} else if (kids && typeof kids === 'object') return findNode(kids, test, depth + 1)
-}
-
-// The container we append to: collapsable={false}, has onLayout, children is an array.
-const isInputContainer = (n: any) =>
-	n?.props?.collapsable === false && typeof n.props.onLayout === 'function' && Array.isArray(n.props.children)
+// The container we append to: collapsable={false}, has onLayout.
+const isInputContainer = (n: any) => n?.props?.collapsable === false && typeof n.props.onLayout === 'function'
 
 // The "someone is typing" overlay: absolute, full-height, coloured, childless.
 const isTypingOverlay = (n: any) => {
@@ -175,7 +166,43 @@ const isTypingOverlay = (n: any) => {
 	return s.position === 'absolute' && s.top === 0 && s.bottom === 0 && s.backgroundColor != null
 }
 
-export default function chatPill({ cleanup, plugin }: ReadAllApi) {
+const toKids = (c: any): any[] => (Array.isArray(c) ? c : c == null || c === false ? [] : [c])
+
+/**
+ * Returns a new tree with the pill added to the input container.
+ * Never mutates props: React freezes them in dev builds, and a mutation there
+ * throws and the pill silently disappears. Unchanged branches are returned as-is.
+ */
+const withPill = (node: any, api: ReadAllApi, depth = 0): any => {
+	if (!node || typeof node !== 'object' || depth > 60) return node
+
+	if (Array.isArray(node)) {
+		let changed = false
+		const out = node.map(n => {
+			const r = withPill(n, api, depth + 1)
+			if (r !== n) changed = true
+			return r
+		})
+		return changed ? out : node
+	}
+
+	const p = node.props
+	if (!p) return node
+
+	if (isInputContainer(node)) {
+		const kids = toKids(p.children)
+		if (kids.some((c: any) => c?.key === KEY)) return node
+		const typing = kids.some(isTypingOverlay)
+		return React.cloneElement(node, undefined, ...kids, <ReadPill key={KEY} api={api} typing={typing} />)
+	}
+
+	if (p.children == null) return node
+	const kids = withPill(p.children, api, depth + 1)
+	return kids === p.children ? node : React.cloneElement(node, undefined, kids)
+}
+
+export default function chatPill(api: ReadAllApi) {
+	const { cleanup, plugin } = api
 	cleanup(
 		getModules(
 			withName('ChatInput'),
@@ -189,14 +216,11 @@ export default function chatPill({ cleanup, plugin }: ReadAllApi) {
 					after(target, 'render', (tree: any) => {
 						try {
 							if (!getSettings().chatPill) return tree
-							const container = findNode(tree, isInputContainer)
-							if (!container || container.props.children.some((c: any) => c?.key === KEY)) return tree
-							const typing = container.props.children.some(isTypingOverlay)
-							container.props.children = [...container.props.children, <ReadPill key={KEY} typing={typing} />]
+							return withPill(tree, api)
 						} catch (e) {
 							plugin.reportError(e)
+							return tree
 						}
-						return tree
 					}),
 				)
 			},
